@@ -14,50 +14,29 @@ ini_set('display_errors', 1);
 error_reporting(E_ALL ^ E_NOTICE);
 include_once __DIR__ . '/local.php';
 include_once MODEL_DIR . '/modelUser.php';    //  подключение модели(работа с БД)
+include_once CONTROLLER_DIR .'/controlService/indexUserService.php' ; // функции контроллера
 ?>
 <?php
-$isGoFlag = true ;
+define('URL_OWN_FORM','/'.VIEW_HTML_DIR.'/userLogin.php') ; // переход на собственную форму
+define('URL_EXIT','/'.TOP_HTML_DIR.'/index.php') ; // переход по кнопке выход
+define('URL_PROFILE','/'.CONTROLLER_HTML_DIR.'/indexProfile.php?edit=1') ; // редактирование профиля
+define('URL_SUCCESSFUL','/'.TOP_HTML_DIR.'/index.php') ; // переход при удаче login,password
 $errors = [] ;
 $_SESSION['modelMessage'] = [] ;   // сообщения модели
-
-$url = '/'.VIEW_HTML_DIR.'/userLogin.php' ;
+$_SESSION['controlMessage'] = [] ;
+$url = URL_OWN_FORM ;
+?>
+<?php
 if (isset($_POST['exit'])) {              // выход - возврат на главную
-    $url = '/'.TOP_HTML_DIR.'/index.php' ;
+    $url = URL_EXIT ;
 }
 if (isset($_POST['profile']) ) {
-    if( $_SESSION['userStatus'] >= USER_STAT_USER &&
-        !empty($_SESSION['userLogin'])) {           // редактирование профиля для зарегистрированных пользователей
-        $url = '/'.CONTROLLER_HTML_DIR.'/indexProfile.php?edit=1' ;
-    }
+    $url = ( isGoProfile() ) ? URL_PROFILE : $url ;
 }
 if (isset($_POST['exec'])  ) {
-    $login = $_POST['login'] ;
-    $password = $_POST['password'] ;
-    if (empty($login) || empty($password)) {
-        $errors[] = 'ERROR:Поля "Имя:" и "Пароль:" должны быть заполнены !' ;
-    }else {
-        $userPassw = getUser($pdo,$login) ;
-        if (!$userPassw) { // $login отсутствует в БД
-            $errors[] = 'ERROR: Недопустимое имя пользователя.Повторите ввод !' ;
-        }else {  // проверяем пароль
-            $fromDBPassw = $userPassw['password'] ;
-            if ( $fromDBPassw != md5($password)) {
-                $errors[] = 'ERROR: Неверный пароль.Повторите ввод !' ;
-            }else {
-                $_SESSION['userLogin'] = $login ;      // login
-                $_SESSION['userName'] = $login ;      // login
-                $_SESSION['userPassword'] = $password ;
-                $_SESSION['enterSuccessful'] = true ;
-                $_SESSION['userStatus'] = USER_STAT_USER ;
-                if ('admin' == $login) {
-                    $_SESSION['userStatus'] = USER_STAT_ADMIN ;
-                }
-                $url = '/'.TOP_HTML_DIR.'/index.php' ;    // возврат на главную
-            }
-        }
-    }
+    $url = (isUserLoginSuccessful($pdo,$errors) ) ? URL_SUCCESSFUL : $url ;
 }
 $_SESSION['controlMessage'] = $errors ;
 header("Location: ".$url) ;
-?>
+
 

@@ -11,7 +11,6 @@ session_start() ;
     <title>php-1-lesson-7</title>
 
     <meta name="description" content="ШП-php-1-lesson_7(MVC) ">
-=======
     <meta name="description" content="ШП-php-1-lesson_7 ">
     <meta name="author" content="mnudelman@yandex.ru">
     <link rel="stylesheet" type="text/css" href="./styles/task.css">
@@ -37,12 +36,11 @@ session_start() ;
         Но редактировать альбом (помещать новые картинки, удалять надоевшие, преименовывать, ...)
         может только владелец, создавший альбом.
     </p>
-<<<<<<< HEAD
 
     <h3>Реализация  MVC</h3>
     <p>Иерархия контроллеров:  index.php -> (indexGallery,indexUser) <br>
         indexGallery( ведение спискаАльбомов) -> indexPicture(ведение спискаИзображений) <br>
-        undexUser(регистрация пользователей) ->  indexProfile(редактирование профиляПользователя)<br>
+        indexUser(регистрация пользователей) ->  indexProfile(редактирование профиляПользователя)<br>
     </p>
     <p>
         Модели - это два набора функций, обеспечивающих взаимодействие с БД. <br>
@@ -60,8 +58,6 @@ session_start() ;
 
     </p>
 
-=======
->>>>>>> 29b4783f17f831b7be04a47ce35dd5e3370a54b2
     <p>
         Добавление выполняется с атрибутом multiple в теге input. После добавления изображения можно переименовать.
     </p>

@@ -26,13 +26,10 @@ error_reporting(E_ALL) ;
 //error_reporting(E_ALL ^ E_NOTICE);
 
 
-<<<<<<< HEAD
-include_once __DIR__ . '/local.php';
-include_once __DIR__ .'/dbService.php' ;
-=======
 include_once __DIR__ . '/sessionVars.php';
+include_once __DIR__ . '/local.php';
 include_once __DIR__ . '/dbService.php';
->>>>>>> 29b4783f17f831b7be04a47ce35dd5e3370a54b2
+
 $dbSuccessful = include(__DIR__ . '/dbConnect.php');
 echo 'dbSuccessful:' . (($dbSuccessful) ? 'true' : 'false') . LINE_FEED;
 echo 'PDO:' . LINE_FEED;
